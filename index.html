@@ -1,0 +1,141 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Chandan Beauty Shop</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Poppins, sans-serif}
+body{background:#fff5f9;color:#333}
+header{background:linear-gradient(90deg,#ff4da6,#ff85c1);color:white;padding:25px;text-align:center}
+nav{display:flex;justify-content:center;gap:30px;background:#ffd6ea;padding:12px;font-weight:600}
+nav a{text-decoration:none;color:#333}
+.hero{padding:60px 20px;text-align:center}
+.hero h2{font-size:34px;color:#ff2e93;margin-bottom:10px}
+.products{padding:40px 20px}
+.products h2{text-align:center;margin-bottom:30px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;max-width:1100px;margin:auto}
+.card{background:white;border-radius:14px;padding:15px;text-align:center;box-shadow:0 6px 14px rgba(0,0,0,0.08)}
+.card img{width:100%;border-radius:10px;height:160px;object-fit:cover}
+.card h3{margin:10px 0}
+.btn{background:#ff2e93;color:white;border:none;padding:10px 16px;border-radius:8px;cursor:pointer}
+.about{background:#ffe6f2;padding:50px 20px;text-align:center}
+.contact{padding:50px 20px;text-align:center}
+.admin{background:#fff0f6;padding:40px 20px}
+.admin h2{text-align:center;margin-bottom:20px}
+.admin form{max-width:500px;margin:auto;display:flex;flex-direction:column;gap:10px}
+.admin input{padding:10px;border-radius:6px;border:1px solid #ccc}
+.reviews{padding:50px 20px;background:#fff}
+.reviews h2{text-align:center;margin-bottom:20px}
+.review-list{max-width:800px;margin:auto;display:flex;flex-direction:column;gap:10px}
+.review{background:#fff5f9;padding:12px;border-radius:8px}
+footer{background:#ff4da6;color:white;text-align:center;padding:18px}
+.whatsapp{position:fixed;bottom:20px;right:20px;background:#25D366;color:white;padding:14px 18px;border-radius:50px;text-decoration:none;font-weight:600}
+</style>
+</head>
+<body><header>
+<h1>✨ CHANDAN BEAUTY SHOP ✨</h1>
+<p>Beauty that shines naturally</p>
+</header><nav>
+<a href="#">Home</a>
+<a href="#products">Products</a>
+<a href="#admin">Upload Product</a>
+<a href="#reviews">Reviews</a>
+<a href="#contact">Contact</a>
+</nav><section class="hero">
+<h2>Your One-Stop Beauty Destination</h2>
+<p>Skincare • Makeup • Beauty Essentials • Perfumes</p>
+</section><section id="products" class="products">
+<h2>Our Products</h2>
+<div id="productGrid" class="grid"></div>
+</section><section id="admin" class="admin">
+<h2>Admin Panel – Upload Product</h2>
+<form id="productForm">
+<input type="text" id="pname" placeholder="Product Name" required>
+<input type="text" id="pprice" placeholder="Price">
+<input type="text" id="pimage" placeholder="Image URL">
+<button class="btn" type="submit">Add Product</button>
+</form>
+</section><section id="reviews" class="reviews">
+<h2>Customer Reviews</h2>
+<form id="reviewForm" style="max-width:500px;margin:auto;display:flex;gap:10px;margin-bottom:20px">
+<input type="text" id="reviewText" placeholder="Write your review" style="flex:1;padding:10px">
+<button class="btn">Submit</button>
+</form>
+<div id="reviewList" class="review-list"></div>
+</section><section class="about">
+<h2>Shop Information</h2>
+<p>
+Welcome to <b>Chandan Beauty Shop</b> – your one-stop destination for all beauty and makeup products.
+We offer a wide range of high-quality skincare, cosmetics, and beauty essentials to help you look beautiful and feel confident every day.
+</p>
+<p><b>All Beauty Products Available</b></p>
+<p>Skincare • Makeup • Beauty Essentials • Perfumes</p>
+<p>Quality products at the best price</p>
+<p><b>Chandan Beauty Shop – Beauty that shines naturally.</b></p>
+</section><section id="contact" class="contact">
+<h2>Contact</h2>
+<p><b>Owner:</b> Chandan Biswas</p>
+<p><b>Mobile:</b> 9365340197</p>
+<p><b>Location:</b> Dhanbari Chaplai Bazar, Khutabari Pt-I, Assam 783123</p>
+</section><footer>
+© 2026 Chandan Beauty Shop
+</footer><a class="whatsapp" href="https://wa.me/919365340197">Chat on WhatsApp</a>
+
+<script>
+const productGrid=document.getElementById('productGrid');
+const form=document.getElementById('productForm');
+
+let products=JSON.parse(localStorage.getItem('products'))||[];
+
+function renderProducts(){
+productGrid.innerHTML='';
+products.forEach(p=>{
+const card=document.createElement('div');
+card.className='card';
+card.innerHTML=`<img src="${p.image}"><h3>${p.name}</h3><p>${p.price}</p><button class='btn'>Order</button>`;
+productGrid.appendChild(card);
+});
+}
+
+form.addEventListener('submit',e=>{
+e.preventDefault();
+const name=document.getElementById('pname').value;
+const price=document.getElementById('pprice').value;
+const image=document.getElementById('pimage').value;
+
+products.push({name,price,image});
+localStorage.setItem('products',JSON.stringify(products));
+form.reset();
+renderProducts();
+});
+
+renderProducts();
+
+const reviewForm=document.getElementById('reviewForm');
+const reviewList=document.getElementById('reviewList');
+
+let reviews=JSON.parse(localStorage.getItem('reviews'))||[];
+
+function renderReviews(){
+reviewList.innerHTML='';
+reviews.forEach(r=>{
+const div=document.createElement('div');
+div.className='review';
+div.textContent=r;
+reviewList.appendChild(div);
+});
+}
+
+reviewForm.addEventListener('submit',e=>{
+e.preventDefault();
+const text=document.getElementById('reviewText').value;
+reviews.push(text);
+localStorage.setItem('reviews',JSON.stringify(reviews));
+reviewForm.reset();
+renderReviews();
+});
+
+renderReviews();
+</script></body>
+</html>
